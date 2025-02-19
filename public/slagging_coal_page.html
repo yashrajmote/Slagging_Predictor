@@ -214,7 +214,6 @@
         }
         
         #totalRangeContainer {
-            margin-top: 10px; 
             text-align: center; 
         }
         
@@ -227,26 +226,52 @@
             margin-bottom: 30px; 
         }
 
-        .checkbox-table {
-            width: 100%;
-            border-collapse: collapse;
+            /* Checkbox Card */
+        .checkbox-card {
+            width: 94%;
+            background-color: #f8f9fa;
+            padding: 12px 16px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            margin-top: 15px;
+            border: 1px solid #ccc;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
         }
-        
+
+        .checkbox-card h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .toggle-icon {
+            font-size: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        /* Collapsible Checkbox Section */
+        .checkbox-container {
+            width: 95%;
+            background-color: #ffffff;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 10px;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+            display: none; /* Initially hidden */
+            transition: all 0.3s ease;
+        }
+
         .checkbox-table td {
             padding: 8px;
-            border-bottom: 1px solid #ddd;
         }
-        
-        .checkbox-table td:first-child {
-            width: 50px;
-            text-align: center;
-        }
-        
-        .checkbox-table input {
-            transform: scale(1.2); /* Makes checkboxes slightly larger */
-        }
-        
 
+        /* Hidden class for smooth collapse */
+        .hidden {
+            display: none;
+        }
+        
 </style>
 </head>
 <body>
@@ -260,62 +285,69 @@
                 <div id="totalRangeContainer">
                     <label>Total Current Range:<span id="totalRange"></span>%</label>        
                 </div>
-                <button type="button" class="calculate-properties-btn" onclick="calculateWeightedAverage()">Calculate</button>  
-            </form>
-            <button type="button" id="blendPropertiesBtn" class="blendProperties" onclick="openBlendModal()" style="display: none;">
-                Blended Coal Properties
-            </button>
-            
-            <!-- Modal for displaying blended coal properties -->
-            <div id="blendPropertiesModal" class="modal">
-                <div class="modal-content">
-                    <span class="close" onclick="closeBlendModal()">&times;</span>
-                    <div id="blendValues"></div>  <!-- This is where values will be inserted -->
-                </div>
-            </div>
+                 
   
-            <div class="checkbox-container">
-                <h3>Operational Parameters</h3>
-                <table class="checkbox-table">
-                    <tbody>
-                        <tr>
-                            <td><input type="checkbox" name="question1"></td>
-                            <td>Coal Mill Fineness (+) 50 mesh less than 0.2%</td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" name="question2"></td>
-                            <td>Coal Mill DPT Result normal</td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" name="question3"></td>
-                            <td>Coal Mill preventive maintenance more than 20 days</td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" name="question4"></td>
-                            <td>O2 at APH O/L less than Design O2 at APH O/L</td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" name="question5"></td>
-                            <td>SADC properly operative</td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" name="question6"></td>
-                            <td>Difference in FG temp. between Left and Right zones at RH and SH zones more than 50 deg.C</td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" name="question7"></td>
-                            <td>Corrected APH O/L FG temp greater than 25 deg. + Design temp at APH O/L</td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" name="question8"></td>
-                            <td>Overhaul conducted more than 1.5 years</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+                <div class="checkbox-card" id="checkboxCard">
+                    <h3>Operational Parameters</h3>
+                    
+                </div>
+            
+                <!-- Collapsible Checkbox Section -->
+                <div class="checkbox-container hidden" id="checkboxContainer">
+                    <table class="checkbox-table">
+                        <tbody>
+                            <tr>
+                                <td><input type="checkbox" name="question1" value="Coal Mill Fineness"></td>
+                                <td>Coal Mill Fineness (+) 50 mesh less than 0.2%</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" name="question2" value="Coal Mill DPT Normal"></td>
+                                <td>Coal Mill DPT Result normal</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" name="question3" value="Preventive Maintenance"></td>
+                                <td>Coal Mill preventive maintenance more than 20 days</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" name="question4" value="O2 at APH O/L"></td>
+                                <td>O2 at APH O/L less than Design O2 at APH O/L</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" name="question5" value="SADC Operative"></td>
+                                <td>SADC properly operative</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" name="question6" value="FG Temp Difference"></td>
+                                <td>Difference in FG temp. between Left and Right zones at RH and SH zones more than 50 deg.C</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" name="question7" value="APH O/L FG Temp"></td>
+                                <td>Corrected APH O/L FG temp greater than 25 deg. + Design temp at APH O/L</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" name="question8" value="Overhaul Conducted"></td>
+                                <td>Overhaul conducted more than 1.5 years</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            <button type="button" class="calculate-properties-btn" onclick="calculateWeightedAverage()">Calculate</button> 
+        </div>    
+    </form>
+        
 
-    <div class="right-container" id="resultsContainer"></div>
+    <div class="right-container" id="resultsContainer">
+        <button id="blendPropertiesBtn" class="blendProperties" onclick="openBlendModal()" style="display:none;">Blended Coal Properties</button>      
+    </div>
+
+    <!-- Modal for displaying blended coal properties -->
+    <div id="blendPropertiesModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeBlendModal()">&times;</span>
+            <div id="blendValues"></div>  
+        </div>
+    </div>
+   
 
     <div id="coalPropertiesModal" class="modal">
         <div class="modal-content">
@@ -328,6 +360,35 @@
     </div>  
 
     <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const checkboxCard = document.getElementById("checkboxCard");
+            const checkboxContainer = document.getElementById("checkboxContainer");
+            const toggleIcon = document.querySelector(".toggle-icon");
+    
+            // Toggle click event
+            checkboxCard.addEventListener("click", function () {
+                if (checkboxContainer.classList.contains("hidden")) {
+                    checkboxContainer.classList.remove("hidden");
+                    checkboxContainer.style.display = "block";
+                    toggleIcon.style.transform = "rotate(180deg)";
+                } else {
+                    checkboxContainer.classList.add("hidden");
+                    setTimeout(() => (checkboxContainer.style.display = "none"), 300);
+                    toggleIcon.style.transform = "rotate(0deg)";
+                }
+            });
+    
+        });
+
+        function getSelectedCheckboxes() {
+            const checkboxes = document.querySelectorAll('.checkbox-container input[type="checkbox"]:checked');
+            let selectedValues = [];
+            checkboxes.forEach((checkbox) => {
+                selectedValues.push(checkbox.name); // Use `name` instead of `value`
+            });
+            return selectedValues;
+        }
 
         function addBlend() {
             const MAX_COALS = 5;
@@ -385,6 +446,7 @@
         function calculateWeightedAverage() {
             const rightContainerDiv = document.querySelector("#resultsContainer");
             let blendValuesDiv = document.getElementById("blendValues");
+            let blendPropertiesBtn = document.getElementById("blendPropertiesBtn");
             
 
             if (!rightContainerDiv) {
@@ -425,15 +487,28 @@
          
             blendValuesDiv.innerHTML = ""; 
         
+            blendValuesDiv.innerHTML = ""; 
+
             if (totalPercentage > 0) {
-                let propertiesHTML = "<h4>Blended Coal Properties:</h4><ul>";
+                let propertiesHTML = `
+                                      <table border="1">
+                                        <tr>
+                                            <th>Property</th>
+                                            <th>Value</th>
+                                        </tr>`;
+                
                 for (let prop in propertySums) {
                     let avgValue = propertySums[prop] / totalPercentage;
-                    propertiesHTML += `<li><strong>${prop}:</strong> ${avgValue.toFixed(2)}</li>`;
+                    propertiesHTML += `<tr>
+                                           <td><strong>${prop}</strong></td>
+                                           <td>${avgValue.toFixed(2)}</td>
+                                       </tr>`;
                 }
-                propertiesHTML += "</ul>"; 
+                
+                propertiesHTML += "</table>";
         
-                blendValuesDiv.innerHTML = propertiesHTML;
+            blendValuesDiv.innerHTML = propertiesHTML;
+            
             rightContainerDiv.innerHTML = "";
         
             if (totalPercentage > 0) {
@@ -565,6 +640,32 @@
                 if (FFFTS < 1) FFFD = "Low";
                 else if (FFFTS > 2) FFFD = "High";
                 else FFFD = "Moderate";
+
+                let totalScore = FSP + FFFTS;
+
+                let checkboxScore = 0;
+                let allQuestions = ["question1", "question2", "question3", "question4", "question5", "question6", "question7", "question8"];
+                let selectedValues = getSelectedCheckboxes(); // Get checked checkboxes
+
+                let scoreMapping = {
+                    "question1": [0, 1],  
+                    "question2": [0, 0.5],
+                    "question3": [0.5, 0],
+                    "question4": [0.5, 0],
+                    "question5": [0, 1],
+                    "question6": [1, 0],
+                    "question7": [1, 0],
+                    "question8": [0.5, 0]
+                };
+
+                // Iterate through all checkboxes (checked and unchecked)
+                allQuestions.forEach(question => {
+                    let isChecked = selectedValues.includes(question);
+                    checkboxScore += isChecked ? scoreMapping[question][0] : scoreMapping[question][1];
+                });
+
+                let overallTotal = totalScore + checkboxScore;  
+                console.log("Total Score:", overallTotal);
                   
             let FoulingHTML = `
                     <table>
@@ -628,78 +729,119 @@
                     <tr><td>Alkali Test</td><td>${TAT.toFixed(2)}</td><td>${TAS}</td></tr>
                     <tr><td>Fouling Factor (B/A*Na)</td><td>${FFT.toFixed(2)}</td><td>${FFS}</td></tr>
                 </table>`;
-
-                rightContainerDiv.innerHTML = "";
                 
-                const fspGraphContainer = createGraph(FSP);
+                rightContainerDiv.appendChild(blendPropertiesBtn);
+                
+                
+                const fspGraphContainer = createFspGraph(FSP);
                 const fspDisplay = document.createElement("div");
+                fspDisplay.style.marginTop = "25px";
                 fspDisplay.textContent = `Slagging Potential : ${FSP.toFixed(1)} (${FSPD})`;
                 rightContainerDiv.appendChild(fspDisplay);
                 rightContainerDiv.appendChild(fspGraphContainer);
-                let fspTableVisible = false;  // Track table visibility
-                let fspTableElement; // Store the table element
+
+                let fspTableVisible = false; 
+                let fspTableElement; 
 
                 fspGraphContainer.addEventListener("click", () => {
-                    fspTableVisible = !fspTableVisible; // Toggle visibility
-
+                    fspTableVisible = !fspTableVisible;
                     if (fspTableVisible) {
-                        if (!fspTableElement) { // Create table only once
+                        if (!fspTableElement) {
                             fspTableElement = document.createElement('div');
                             fspTableElement.innerHTML = FoulingHTML;
                         }
-                        rightContainerDiv.insertBefore(fspTableElement, fspGraphContainer.nextSibling); // Insert below graph
+                        rightContainerDiv.insertBefore(fspTableElement, fspGraphContainer.nextSibling);
                     } else {
                         if (fspTableElement && fspTableElement.parentNode) {
-                            fspTableElement.parentNode.removeChild(fspTableElement); // Remove table
+                            fspTableElement.parentNode.removeChild(fspTableElement);
                         }
                     }
                 });
 
-                const ffftsGraphContainer = createGraph(FFFTS);
+                const ffftsGraphContainer = createFfftsGraph(FFFTS);
                 const ffftsDisplay = document.createElement("div");
+                ffftsDisplay.style.marginTop = "10px";
                 ffftsDisplay.textContent = `Fouling Potential: ${FFFTS.toFixed(1)} (${FFFD})`;
                 rightContainerDiv.appendChild(ffftsDisplay);
                 rightContainerDiv.appendChild(ffftsGraphContainer);
+
                 let ffftsTableVisible = false; 
                 let ffftsTableElement; 
-                
+
                 ffftsGraphContainer.addEventListener("click", () => {
-                    ffftsTableVisible = !ffftsTableVisible; 
-                
+                    ffftsTableVisible = !ffftsTableVisible;
                     if (ffftsTableVisible) {
-                        if (!ffftsTableElement) { 
+                        if (!ffftsTableElement) {
                             ffftsTableElement = document.createElement('div');
                             ffftsTableElement.innerHTML = FoulingHTML2;
                         }
-                        rightContainerDiv.insertBefore(ffftsTableElement, ffftsGraphContainer.nextSibling); 
+                        rightContainerDiv.insertBefore(ffftsTableElement, ffftsGraphContainer.nextSibling);
                     } else {
-                         if (ffftsTableElement && ffftsTableElement.parentNode) {
-                            ffftsTableElement.parentNode.removeChild(ffftsTableElement); 
+                        if (ffftsTableElement && ffftsTableElement.parentNode) {
+                            ffftsTableElement.parentNode.removeChild(ffftsTableElement);
                         }
                     }
+
                 });
+
+                // Define separate functions for graph creation with different thresholds
+                function createFspGraph(value) {
+                    return createGraph(value, 0, 7, fspColorFunction);
+                }
+
+                function createFfftsGraph(value) {
+                    return createGraph(value, 0, 4, ffftsColorFunction);
+                }
+
+                // Color logic for FSP Graph
+                function fspColorFunction(value) {
+                    return value < 2 ? "green" : value > 4 ? "red" : "yellow";
+                }
+
+                // Color logic for FFTS Graph
+                function ffftsColorFunction(value) {
+                    return value < 1 ? "green" : value > 2 ? "red" : "yellow";
+                }
+
+
+                function createOverallGraph(totalScore, checkboxScore, overallTotal) {
+                    const minValue = 0;
+                    const maxValue = 10;
                 
-                function createGraph(value) {
-                    const graphContainer = document.createElement("div");
-                    graphContainer.style.width = "550px";
-                    graphContainer.style.height = "32px";
-                    graphContainer.style.border = "1px solid black";
-                    graphContainer.style.borderRadius = "12px";
-                    graphContainer.style.position = "relative";
-                    graphContainer.style.marginBottom = "30px";
-                    
+                    // Graph container
+                    const overallGraphContainer = document.createElement("div");
+                    overallGraphContainer.style.width = "550px";
+                    overallGraphContainer.style.height = "32px";
+                    overallGraphContainer.style.border = "1px solid black";
+                    overallGraphContainer.style.borderRadius = "12px";
+                    overallGraphContainer.style.position = "relative";
+                    overallGraphContainer.style.marginBottom = "30px";
+                    overallGraphContainer.style.marginTop = "10px";
+                    overallGraphContainer.style.display = "flex";
                 
-                    const bar = document.createElement("div");
-                    bar.style.height = "100%";
-                    bar.style.width = `${(value / 4) * 100}%`;
-                    bar.style.borderRadius = "12px";
-                    bar.style.backgroundColor = value < 1 ? "green" : value > 2 ? "red" : "yellow";
-                    graphContainer.appendChild(bar);
+                    // Slagging + Fouling Score Bar
+                    const sfBar = document.createElement("div");
+                    sfBar.style.height = "100%";
+                    sfBar.style.width = `${(totalScore / maxValue) * 100}%`;
+                    sfBar.style.borderRadius = totalScore + checkboxScore >= maxValue ? "12px" : "12px 0 0 12px";
+                    sfBar.style.backgroundColor = getColor(totalScore);
                 
-                    for (let i = 0; i <= 4; i++) {
+                    // Checkbox Score Bar
+                    const cbBar = document.createElement("div");
+                    cbBar.style.height = "100%";
+                    cbBar.style.width = `${(checkboxScore / maxValue) * 100}%`;
+                    cbBar.style.borderRadius = "0 12px 12px 0";
+                    cbBar.style.backgroundColor = "blue";
+                
+                    // Append bars
+                    overallGraphContainer.appendChild(sfBar);
+                    overallGraphContainer.appendChild(cbBar);
+                
+                    // Add tick marks and labels
+                    for (let i = minValue; i <= maxValue; i++) {
                         const tick = document.createElement("div");
                         tick.style.position = "absolute";
-                        tick.style.left = `${(i / 4) * 100}%`;
+                        tick.style.left = `${(i / maxValue) * 100}%`;
                         tick.style.top = "50%";
                         tick.style.transform = "translateY(-50%)";
                         tick.style.height = "10px";
@@ -708,23 +850,90 @@
                 
                         const label = document.createElement("span");
                         label.style.position = "absolute";
-                        label.style.left = `${(i / 4) * 100}%`;
+                        label.style.marginTop = "5px";
+                        label.style.left = `${(i / maxValue) * 100}%`;
+                        label.style.top = "100%";
+                        label.style.transform = "translateX(-50%)";
+                        label.style.fontSize = "12px";
+                        label.textContent = i;
+                
+                        overallGraphContainer.appendChild(tick);
+                        overallGraphContainer.appendChild(label);
+                    }
+                
+                    // Display overall score
+                    const totalDisplay = document.createElement("div");
+                    totalDisplay.style.marginBottom = "10px";
+                    totalDisplay.style.fontSize = "18px";
+                    totalDisplay.style.fontWeight = "bold";
+                    totalDisplay.textContent = `Overall Score: ${overallTotal.toFixed(1)} (Slagging + Fouling: ${totalScore.toFixed(1)}, Checkbox Score: ${checkboxScore.toFixed(1)})`;
+                
+                    // Append elements to container
+                    rightContainerDiv.appendChild(totalDisplay);
+                    rightContainerDiv.appendChild(overallGraphContainer);
+                }
+
+
+                // Generic graph creation function
+                function createGraph(value, minValue, maxValue, colorFunction) {
+                    const graphContainer = document.createElement("div");
+                    graphContainer.style.width = "550px";
+                    graphContainer.style.height = "32px";
+                    graphContainer.style.border = "1px solid black";
+                    graphContainer.style.borderRadius = "12px";
+                    graphContainer.style.position = "relative";
+                    graphContainer.style.marginBottom = "30px";
+                    graphContainer.style.marginTop = "10px";
+
+                    const bar = document.createElement("div");
+                    bar.style.height = "100%";
+                    bar.style.width = `${((value - minValue) / (maxValue - minValue)) * 100}%`;
+                    bar.style.borderRadius = "12px";
+                    bar.style.backgroundColor = colorFunction(value); // Use specific color logic
+                    graphContainer.appendChild(bar);
+
+                    for (let i = minValue; i <= maxValue; i++) {
+                        const tick = document.createElement("div");
+                        tick.style.position = "absolute";
+                        tick.style.left = `${((i - minValue) / (maxValue - minValue)) * 100}%`;
+                        tick.style.top = "50%";
+                        tick.style.transform = "translateY(-50%)";
+                        tick.style.height = "10px";
+                        tick.style.width = "1px";
+                        tick.style.backgroundColor = "black";
+
+                        const label = document.createElement("span");
+                        label.style.position = "absolute";
+                        label.style.marginTop = "5px";
+                        label.style.left = `${((i - minValue) / (maxValue - minValue)) * 100}%`;
                         label.style.top = "100%";
                         label.style.transform = "translateX(-50%)";
                         label.textContent = i;
-                
+
                         graphContainer.appendChild(tick);
                         graphContainer.appendChild(label);
                     }
                     return graphContainer;
-                }           
+                }
+
+                function getColor(score) {
+                    if (score < 3) return "green";
+                    if (score < 6) return "yellow";
+                    return "red";
+                }
+            
 
                 document.getElementById("resultsContainer").style.display = "flex";
                 document.getElementById("blendValues").style.display = "flex";
-                document.getElementById("blendPropertiesBtn").style.display = "block";
+                blendPropertiesBtn.style.display = "block";
+                createOverallGraph(totalScore, checkboxScore, overallTotal);
+
+                
             } 
         }
     }
+
+    
             
         
         function removeBlend(button) {
