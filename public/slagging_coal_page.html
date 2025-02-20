@@ -362,35 +362,6 @@
 
     <script>
 
-        document.addEventListener("DOMContentLoaded", function () {
-            const checkboxCard = document.getElementById("checkboxCard");
-            const checkboxContainer = document.getElementById("checkboxContainer");
-            const toggleIcon = document.querySelector(".toggle-icon");
-    
-            // Toggle click event
-            checkboxCard.addEventListener("click", function () {
-                if (checkboxContainer.classList.contains("hidden")) {
-                    checkboxContainer.classList.remove("hidden");
-                    checkboxContainer.style.display = "block";
-                    toggleIcon.style.transform = "rotate(180deg)";
-                } else {
-                    checkboxContainer.classList.add("hidden");
-                    setTimeout(() => (checkboxContainer.style.display = "none"), 300);
-                    toggleIcon.style.transform = "rotate(0deg)";
-                }
-            });
-    
-        });
-
-        function getSelectedCheckboxes() {
-            const checkboxes = document.querySelectorAll('.checkbox-container input[type="checkbox"]:checked');
-            let selectedValues = [];
-            checkboxes.forEach((checkbox) => {
-                selectedValues.push(checkbox.name); // Use `name` instead of `value`
-            });
-            return selectedValues;
-        }
-
         function addBlend() {
             const MAX_COALS = 5;
             const currentCoals = document.querySelectorAll('.blend').length;
@@ -434,6 +405,35 @@
                 totalCurrentRange += rangeValue;
             });
             document.getElementById("totalRange").textContent = totalCurrentRange;
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const checkboxCard = document.getElementById("checkboxCard");
+            const checkboxContainer = document.getElementById("checkboxContainer");
+            const toggleIcon = document.querySelector(".toggle-icon");
+    
+            // Toggle click event
+            checkboxCard.addEventListener("click", function () {
+                if (checkboxContainer.classList.contains("hidden")) {
+                    checkboxContainer.classList.remove("hidden");
+                    checkboxContainer.style.display = "block";
+                    toggleIcon.style.transform = "rotate(180deg)";
+                } else {
+                    checkboxContainer.classList.add("hidden");
+                    setTimeout(() => (checkboxContainer.style.display = "none"), 300);
+                    toggleIcon.style.transform = "rotate(0deg)";
+                }
+            });
+    
+        });
+
+        function getSelectedCheckboxes() {
+            const checkboxes = document.querySelectorAll('.checkbox-container input[type="checkbox"]:checked');
+            let selectedValues = [];
+            checkboxes.forEach((checkbox) => {
+                selectedValues.push(checkbox.name); // Use `name` instead of `value`
+            });
+            return selectedValues;
         }
 
         function openBlendModal() {
@@ -600,8 +600,8 @@
                 // Fuel Slagging Potential
                 const FSP = Number(T250S) + Number(BARS) + Number(SFS) + Number(SIS) + Number(SPS) + Number(ICRS) + Number(IPCS);
                 let FSPD;
-                if (FSP < 1) FSPD = "Low";
-                else if (FSP > 2) FSPD = "High";
+                if (FSP < 2) FSPD = "Low";
+                else if (FSP > 4) FSPD = "High";
                 else FSPD = "Moderate";
                 
                 //FOULING
@@ -737,7 +737,7 @@
                 const fspGraphContainer = createFspGraph(FSP);
                 const fspDisplay = document.createElement("div");
                 fspDisplay.style.marginTop = "25px";
-                fspDisplay.textContent = `Slagging Potential : ${FSP.toFixed(1)} (${FSPD})`;
+                fspDisplay.textContent = `Slagging Potential : ${FSPD}`;
                 rightContainerDiv.appendChild(fspDisplay);
                 rightContainerDiv.appendChild(fspGraphContainer);
 
@@ -762,7 +762,7 @@
                 const ffftsGraphContainer = createFfftsGraph(FFFTS);
                 const ffftsDisplay = document.createElement("div");
                 ffftsDisplay.style.marginTop = "10px";
-                ffftsDisplay.textContent = `Fouling Potential: ${FFFTS.toFixed(1)} (${FFFD})`;
+                ffftsDisplay.textContent = `Fouling Potential: ${FFFD}`;
                 rightContainerDiv.appendChild(ffftsDisplay);
                 rightContainerDiv.appendChild(ffftsGraphContainer);
 
@@ -932,10 +932,7 @@
                 
             } 
         }
-    }
-
-    
-            
+    }       
         
         function removeBlend(button) {
             button.parentElement.remove(); 
