@@ -741,7 +741,7 @@
                 let chartWrapper = document.createElement("div");   
                 chartWrapper.style.display = "flex";  // Flexbox for side-by-side layout
                 chartWrapper.style.justifyContent = "center"; // Center align
-                chartWrapper.style.gap = "20px"; // Space between charts
+                chartWrapper.style.gap = "40px"; // Space between charts
                 rightContainerDiv.appendChild(chartWrapper);
                 
                 // Create Slagging Gauge Chart
@@ -749,7 +749,8 @@
                 fspGraphWrapper.style.textAlign = "center"; 
                 
                 const fspDisplay = document.createElement("div");
-                fspDisplay.style.marginTop = "15px";
+                fspDisplay.style.marginTop = "20px";
+                fspDisplay.style.marginBottom = "3px";
                 fspDisplay.style.fontWeight = "bold"; 
                 fspDisplay.textContent = `Slagging Potential : ${FSPD}`;
                 
@@ -767,7 +768,8 @@
                 ffftsGraphWrapper.style.textAlign = "center"; 
                 
                 const ffftsDisplay = document.createElement("div");
-                ffftsDisplay.style.marginTop = "15px";
+                ffftsDisplay.style.marginTop = "20px";
+                ffftsDisplay.style.marginBottom = "3px";
                 ffftsDisplay.style.fontWeight = "bold";
                 ffftsDisplay.textContent = `Fouling Potential: ${FFFD}`;
                 
@@ -865,6 +867,7 @@
                         redFrom: colorRanges.red[0], redTo: colorRanges.red[1],
                         yellowFrom: colorRanges.yellow[0], yellowTo: colorRanges.yellow[1],
                         greenFrom: colorRanges.green[0], greenTo: colorRanges.green[1],
+
                         minorTicks: 5
                     };
                 
@@ -886,7 +889,10 @@
                         redFrom: colorRanges.red[0], redTo: colorRanges.red[1],
                         yellowFrom: colorRanges.yellow[0], yellowTo: colorRanges.yellow[1],
                         greenFrom: colorRanges.green[0], greenTo: colorRanges.green[1],
-                        minorTicks: 5
+                        greenColor: '#5de65d', // Light Green
+                        yellowColor: '#ffff76', // Light Yellow
+                        redColor: '#e24242', // Light Red
+                        minorTicks: 4
                     };
                 
                     const chart = new google.visualization.Gauge(document.getElementById(containerId));
@@ -906,10 +912,7 @@
                     yellow: [1, 2],
                     red: [2, 4]
                 };
-
-                
-                
-               
+         
 
                 function createOverallGraph(totalScore, checkboxScore, overallTotal) {
                     const minValue = 0;
@@ -925,20 +928,29 @@
                     overallGraphContainer.style.marginBottom = "30px";
                     overallGraphContainer.style.marginTop = "10px";
                     overallGraphContainer.style.display = "flex";
+
+
+                    let sfWidth = (totalScore / maxValue) * 100;
+                    sfWidth = sfWidth > 100 ? 100 : sfWidth;
+
+                    let cbWidth = ((totalScore + checkboxScore) > maxValue) 
+                    ? Math.max(0, (maxValue - totalScore) / maxValue * 100) 
+                    : (checkboxScore / maxValue) * 100;
                 
                     // Slagging + Fouling Score Bar
                     const sfBar = document.createElement("div");
                     sfBar.style.height = "100%";
-                    sfBar.style.width = `${(totalScore / maxValue) * 100}%`;
+                    sfBar.style.width = `${sfWidth}%`;
                     sfBar.style.borderRadius = totalScore + checkboxScore >= maxValue ? "12px" : "12px 0 0 12px";
                     sfBar.style.backgroundColor = getColor(totalScore);
                 
                     // Checkbox Score Bar
                     const cbBar = document.createElement("div");
                     cbBar.style.height = "100%";
-                    cbBar.style.width = `${(checkboxScore / maxValue) * 100}%`;
-                    cbBar.style.borderRadius = "0 12px 12px 0";
-                    cbBar.style.backgroundColor = "blue";
+                    cbBar.style.width = `${cbWidth}%`;
+                    cbBar.style.borderRadius =  (totalScore + checkboxScore) >= maxValue ? "0 12px 12px 0" : "0";
+                    cbBar.style.backgroundColor = getCheckboxColor(totalScore);
+                    cbBar.style.backgroundImage = getHatchingLines();
                 
                     // Append bars
                     overallGraphContainer.appendChild(sfBar);
@@ -971,21 +983,35 @@
                     // Display overall score
                     const totalDisplay = document.createElement("div");
                     totalDisplay.style.marginBottom = "10px";
+                    totalDisplay.style.marginTop = "20px";
                     totalDisplay.style.fontSize = "18px";
                     totalDisplay.style.fontWeight = "bold";
-                    totalDisplay.textContent = `Overall Score: ${overallTotal.toFixed(1)} (Slagging + Fouling: ${totalScore.toFixed(1)}, Checkbox Score: ${checkboxScore.toFixed(1)})`;
+                    totalDisplay.textContent = `Overall Score: ${overallTotal.toFixed(1)} (Slagging + Fouling: ${totalScore.toFixed(1)}, O&M Score: ${checkboxScore.toFixed(1)})`;
                 
                     // Append elements to container
                     rightContainerDiv.appendChild(totalDisplay);
                     rightContainerDiv.appendChild(overallGraphContainer);
                 }
-
-
+                
+                // Function to get the color based on the total score
                 function getColor(score) {
                     if (score < 3) return "green";
                     if (score < 6) return "yellow";
                     return "red";
                 }
+                
+                // Function to get the checkbox color based on the total score
+                function getCheckboxColor(score) {
+                    if (score < 3) return "#5de65d";
+                    if (score < 6) return "#ffff76";
+                    return "#e24242";
+                }
+                
+                // Function to get hatching lines as a background image
+                function getHatchingLines() {
+                    return "repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(255, 255, 255) 5px, rgba(255, 255, 255) 10px)";
+                }
+                
             
 
                 document.getElementById("resultsContainer").style.display = "flex";
