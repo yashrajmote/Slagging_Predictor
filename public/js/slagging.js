@@ -71,8 +71,8 @@ function calculateValues(parsedValues) {
     // T250 Temperature test value
     const T250 = Math.sqrt(
         ((((0.00835 * SIO) + (0.00601 * ALO) - 0.109) * 10**7) /
-        (2.398 - ((0.0415 * SIO) + (0.0192 * ALO) +
-        (0.276 * FEO) + (0.016 * CAO) - 3.92)))) + 150;
+        2.398) - ((0.0415 * SIO) + (0.0192 * ALO) +
+        (0.276 * FEO) + (0.016 * CAO) - 3.92))+ 150;
     results['T250'] = T250;
 
     // T250 Temperature score

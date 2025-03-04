@@ -530,12 +530,14 @@
                 let ST = propertySums["Softening/ Spherical Temp."]/totalPercentage;
                 let HT = propertySums["Hemispherical Temp."]/totalPercentage;
                 let FT = propertySums["Fluid Temp."]/totalPercentage;
+
+
         
                 // Calculate test values using formulas
                 const T250 = Math.sqrt(
                     ((((0.00835 * SIO) + (0.00601 * ALO) - 0.109) * 10**7) /
                     (2.398 - ((0.0415 * SIO) + (0.0192 * ALO) +
-                    (0.276 * FEO) + (0.016 * CAO) - 3.92)))) + 150;
+                    (0.027 * FEO) + (0.016 * CAO) - 3.92)))) + 150;
 
                 let T250S;
                 if (T250 > 1275) T250S = 0;
