@@ -33,10 +33,11 @@ app.get('/get_coal_types', (req, res) => {
 
   // Extract column headers to find indices of required properties
   const headers = data[0];  // The first row contains headers
-  const requiredProperties = ["SiO2", "Al2O3", "Fe2O3", "CaO", "MgO", "Na2O", "K2O", "TiO2", "SO3", "P2O5","Sulphur (S)","MN3O4","Initial Deformation Temp.","Softening/ Spherical Temp.","Hemispherical Temp.","Fluid Temp."];
+  const requiredProperties = ["SiO₂", "Al₂O₃", "Fe₂O₃", "CaO", "MgO", "Na₂O", "K₂O", "TiO₂", "SO₃", "P₂O₅","Mn₃O₄","Sulphur (S)","Initial Deformation Temp.","Softening/ Spherical Temp.","Hemispherical Temp.","Fluid Temp."];
 
   // Find indices of required properties
-  const propertyIndices = requiredProperties.map(prop => headers.indexOf(prop));
+  const propertyIndices = requiredProperties.map(prop => headers.map(h => h.trim()).indexOf(prop.trim()));
+
 
   // Fetch coal types and their respective properties
   const coalData = data.slice(1).map(row => {

@@ -206,8 +206,8 @@
             cursor: pointer;
             border: none;
             background-color: #02008a;
-            width: 50%;
-            margin-left: 25%;
+            width: 30%;
+            margin-left: 35%;
             margin-top: 20px;
             color: white;
             border-radius: 5px;
@@ -461,9 +461,9 @@
 
             let totalPercentage = 0;
             let propertySums = {
-                "SiO2": 0, "Al2O3": 0, "Fe2O3": 0, "CaO": 0, "MgO": 0, 
-                "Na2O": 0, "K2O": 0, "TiO2": 0, "SO3": 0, "P2O5": 0,
-                "Sulphur (S)":0, "MN3O4":0,"Initial Deformation Temp.":0,"Softening/ Spherical Temp.": 0,"Hemispherical Temp.": 0,"Fluid Temp.":0
+                "SiO₂": 0, "Al₂O₃": 0, "Fe₂O₃": 0, "CaO": 0, "MgO": 0, 
+                "Na₂O": 0, "K₂O": 0, "TiO₂": 0, "SO₃": 0, "P₂O₅": 0,
+                "Sulphur (S)":0, "Mn₃O₄":0,"Initial Deformation Temp.":0,"Softening/ Spherical Temp.": 0,"Hemispherical Temp.": 0,"Fluid Temp.":0
 
             };
         
@@ -514,18 +514,18 @@
         
             if (totalPercentage > 0) {
                 // Compute weighted averages
-                let SIO = propertySums["SiO2"] / totalPercentage;
-                let ALO = propertySums["Al2O3"] / totalPercentage;
-                let FEO = propertySums["Fe2O3"] / totalPercentage;
+                let SIO = propertySums["SiO₂"] / totalPercentage;
+                let ALO = propertySums["Al₂O₃"] / totalPercentage;
+                let FEO = propertySums["Fe₂O₃"] / totalPercentage;
                 let CAO = propertySums["CaO"] / totalPercentage;
                 let MGO = propertySums["MgO"] / totalPercentage;
-                let NAO = propertySums["Na2O"] / totalPercentage;
-                let KO = propertySums["K2O"] / totalPercentage;
-                let TIO = propertySums["TiO2"] / totalPercentage;
-                let SO = propertySums["SO3"] / totalPercentage;
-                let PO = propertySums["P2O5"] / totalPercentage;
+                let NAO = propertySums["Na₂O"] / totalPercentage;
+                let KO = propertySums["K₂O"] / totalPercentage;
+                let TIO = propertySums["TiO₂"] / totalPercentage;
+                let SO = propertySums["SO₃"] / totalPercentage;
+                let PO = propertySums["P₂O₅"] / totalPercentage;
                 let S = propertySums["Sulphur (S)"]/totalPercentage;
-                let MNO = propertySums["MN3O4"]/totalPercentage;
+                let MNO = propertySums["Mn₃O₄"]/totalPercentage;
                 let IDT = propertySums["Initial Deformation Temp."]/totalPercentage;
                 let ST = propertySums["Softening/ Spherical Temp."]/totalPercentage;
                 let HT = propertySums["Hemispherical Temp."]/totalPercentage;
@@ -927,6 +927,7 @@
                     overallGraphContainer.style.position = "relative";
                     overallGraphContainer.style.marginBottom = "30px";
                     overallGraphContainer.style.marginTop = "10px";
+                    overallGraphContainer.style.marginLeft = "50px";
                     overallGraphContainer.style.display = "flex";
 
 
@@ -984,6 +985,7 @@
                     const totalDisplay = document.createElement("div");
                     totalDisplay.style.marginBottom = "10px";
                     totalDisplay.style.marginTop = "20px";
+                    totalDisplay.style.marginLeft = "80px";
                     totalDisplay.style.fontSize = "18px";
                     totalDisplay.style.fontWeight = "bold";
                     totalDisplay.textContent = `Overall Score: ${overallTotal.toFixed(1)} (Slagging + Fouling: ${totalScore.toFixed(1)}, O&M Score: ${checkboxScore.toFixed(1)})`;
@@ -1003,7 +1005,7 @@
                 // Function to get the checkbox color based on the total score
                 function getCheckboxColor(score) {
                     if (score < 3) return "#5de65d";
-                    if (score < 6) return "#ffff76";
+                    if (score < 6) return "#fddf05";
                     return "#e24242";
                 }
                 
@@ -1055,27 +1057,45 @@
         
         function fetchCoalProperties(index) {
             const selectedCoal = document.querySelector(`#coal${index}`).value;
-    
+        
             if (!selectedCoal) {
                 alert("Please select a coal type first.");
                 return;
             }
-    
+        
             const coalInfo = window.coalData.find(coal => coal.coalType === selectedCoal);
             if (!coalInfo) {
                 alert("Coal properties not found.");
                 return;
             }
-    
-            let propertiesHTML = "";
+        
+            // Generate table HTML
+            let propertiesHTML = `
+                <table border="1" style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr>
+                            <th style="padding: 8px; border: 1px solid lightgray ;">Property</th>
+                            <th style="padding: 8px; border: 1px solid lightgray ;">Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+        
             for (const [key, value] of Object.entries(coalInfo.properties)) {
-                propertiesHTML += `<p><strong>${key}:</strong> ${value}</p>`;
+                propertiesHTML += `
+                    <tr>
+                        <td style="padding: 8px; border: 1px solid lightgray ;">${key}</td>
+                        <td style="padding: 8px; border: 1px solid lightgray ;">${value}</td>
+                    </tr>
+                `;
             }
-    
+        
+            propertiesHTML += `</tbody></table>`;
+        
             document.getElementById("coalPropertiesContent").innerHTML = propertiesHTML;
             document.getElementById("coalPropertiesModal").style.display = "block";
         }
-    
+
         function closeModal() {
             document.getElementById("coalPropertiesModal").style.display = "none";
         }
